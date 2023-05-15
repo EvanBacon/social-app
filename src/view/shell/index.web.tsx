@@ -10,20 +10,21 @@ import {ModalsContainer} from '../com/modals/Modal'
 import {Composer} from './Composer.web'
 import {useColorSchemeStyle} from 'lib/hooks/useColorSchemeStyle'
 import {s, colors} from 'lib/styles'
-import {RoutesContainer, FlatNavigator} from '../../Navigation'
 import {DrawerContent} from './Drawer'
 import {useWebMediaQueries} from '../../lib/hooks/useWebMediaQueries'
 import {BottomBarWeb} from './bottom-bar/BottomBarWeb'
+import {Slot} from 'expo-router'
+import {TabbedNavigator} from './bottom-bar/tab-slot'
 
 const ShellInner = observer(() => {
   const store = useStores()
   const {isDesktop} = useWebMediaQueries()
 
   return (
-    <>
+    <TabbedNavigator>
       <View style={s.hContentRegion}>
         <ErrorBoundary>
-          <FlatNavigator />
+          <TabbedNavigator.Slot />
         </ErrorBoundary>
       </View>
       {isDesktop && (
@@ -54,7 +55,7 @@ const ShellInner = observer(() => {
           </View>
         </TouchableOpacity>
       )}
-    </>
+    </TabbedNavigator>
   )
 })
 
@@ -62,9 +63,7 @@ export const Shell: React.FC = observer(() => {
   const pageBg = useColorSchemeStyle(styles.bgLight, styles.bgDark)
   return (
     <View style={[s.hContentRegion, pageBg]}>
-      <RoutesContainer>
-        <ShellInner />
-      </RoutesContainer>
+      <ShellInner />
     </View>
   )
 })

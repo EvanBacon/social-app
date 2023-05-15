@@ -8,10 +8,6 @@ import {
 import {useFocusEffect} from '@react-navigation/native'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {FlatList, ScrollView} from 'view/com/util/Views'
-import {
-  NativeStackScreenProps,
-  SearchTabNavigatorParams,
-} from 'lib/routes/types'
 import {observer} from 'mobx-react-lite'
 import {Text} from 'view/com/util/text/Text'
 import {useStores} from 'state/index'
@@ -28,9 +24,8 @@ import {usePalette} from 'lib/hooks/usePalette'
 import {useOnMainScroll} from 'lib/hooks/useOnMainScroll'
 import {isAndroid, isIOS} from 'platform/detection'
 
-type Props = NativeStackScreenProps<SearchTabNavigatorParams, 'Search'>
 export const SearchScreen = withAuthRequired(
-  observer<Props>(({}: Props) => {
+  observer(() => {
     const pal = usePalette('default')
     const store = useStores()
     const scrollViewRef = React.useRef<ScrollView>(null)

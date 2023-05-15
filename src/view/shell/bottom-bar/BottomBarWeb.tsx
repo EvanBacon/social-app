@@ -17,8 +17,8 @@ import {
   MagnifyingGlassIcon2Solid,
   UserIcon,
 } from 'lib/icons'
-import {Link} from 'view/com/util/Link'
 import {useMinimalShellMode} from 'lib/hooks/useMinimalShellMode'
+import {TabLink, useIsTabSelected} from './tab-slot'
 
 export const BottomBarWeb = observer(() => {
   const store = useStores()
@@ -35,19 +35,19 @@ export const BottomBarWeb = observer(() => {
         {paddingBottom: clamp(safeAreaInsets.bottom, 15, 30)},
         footerMinimalShellTransform,
       ]}>
-      <NavItem routeName="Home" href="/">
+      <NavItem routeName="(index)" href="/">
         {({isActive}) => {
           const Icon = isActive ? HomeIconSolid : HomeIcon
           return (
             <Icon
               strokeWidth={4}
               size={24}
-              style={[styles.ctrlIcon, pal.text, styles.homeIcon]}
+              style={[pal.text, styles.homeIcon]}
             />
           )
         }}
       </NavItem>
-      <NavItem routeName="Search" href="/search">
+      <NavItem routeName="(search)" href="/search">
         {({isActive}) => {
           const Icon = isActive
             ? MagnifyingGlassIcon2Solid
@@ -55,30 +55,30 @@ export const BottomBarWeb = observer(() => {
           return (
             <Icon
               size={25}
-              style={[styles.ctrlIcon, pal.text, styles.searchIcon]}
+              style={[pal.text, styles.searchIcon]}
               strokeWidth={1.8}
             />
           )
         }}
       </NavItem>
-      <NavItem routeName="Notifications" href="/notifications">
+      <NavItem routeName="(notifications)" href="/notifications">
         {({isActive}) => {
           const Icon = isActive ? BellIconSolid : BellIcon
           return (
             <Icon
               size={24}
               strokeWidth={1.9}
-              style={[styles.ctrlIcon, pal.text, styles.bellIcon]}
+              style={[pal.text, styles.bellIcon]}
             />
           )
         }}
       </NavItem>
-      <NavItem routeName="Profile" href={`/profile/${store.me.handle}`}>
+      <NavItem routeName="(profile)" href={`/profile/${store.me.handle}`}>
         {() => (
           <UserIcon
             size={28}
             strokeWidth={1.5}
-            style={[styles.ctrlIcon, pal.text, styles.profileIcon]}
+            style={[pal.text, styles.profileIcon]}
           />
         )}
       </NavItem>
@@ -90,12 +90,18 @@ const NavItem: React.FC<{
   children: (props: {isActive: boolean}) => React.ReactChild
   href: string
   routeName: string
-}> = ({children, href, routeName}) => {
-  const currentRoute = useNavigationState(getCurrentRoute)
-  const isActive = isTab(currentRoute.name, routeName)
+}> = ({children, routeName}) => {
+  // const currentRoute = useNavigationState(getCurrentRoute)
+  const isActive = useIsTabSelected(routeName)
+
   return (
-    <Link href={href} style={styles.ctrl}>
+    <TabLink
+      name={routeName}
+      style={[
+        styles.ctrl,
+        {alignItems: 'center', display: 'flex', justifyContent: 'center'},
+      ]}>
       {children({isActive})}
-    </Link>
+    </TabLink>
   )
 }

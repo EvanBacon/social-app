@@ -1,4 +1,5 @@
 import 'platform/polyfills'
-import {registerRootComponent} from 'expo'
-import App from './src/App'
-registerRootComponent(App)
+import 'expo-router/entry'
+// import {registerRootComponent} from 'expo'
+// import App from './src/App'
+// registerRootComponent(App)

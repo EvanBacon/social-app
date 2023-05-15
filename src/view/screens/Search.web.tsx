@@ -13,12 +13,13 @@ import {
 import {useStores} from 'state/index'
 import * as Mobile from './SearchMobile'
 import {useWebMediaQueries} from 'lib/hooks/useWebMediaQueries'
+import {useLocalSearchParams} from 'expo-router'
 
 type Props = NativeStackScreenProps<SearchTabNavigatorParams, 'Search'>
 export const SearchScreen = withAuthRequired(
-  observer(({navigation, route}: Props) => {
+  observer(({}: Props) => {
     const store = useStores()
-    const params = route.params || {}
+    const params = useLocalSearchParams<{q?: string}>()
     const foafs = React.useMemo<FoafsModel>(
       () => new FoafsModel(store),
       [store],
@@ -51,7 +52,7 @@ export const SearchScreen = withAuthRequired(
     const {isDesktop} = useWebMediaQueries()
 
     if (!isDesktop) {
-      return <Mobile.SearchScreen navigation={navigation} route={route} />
+      return <Mobile.SearchScreen />
     }
 
     return <Suggestions foafs={foafs} suggestedActors={suggestedActors} />

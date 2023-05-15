@@ -4,8 +4,9 @@ import {
   GestureResponderEvent,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native'
-import {StackActions} from '@react-navigation/native'
+import {CommonActions, StackActions} from '@react-navigation/native'
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {observer} from 'mobx-react-lite'
@@ -28,14 +29,21 @@ import {getTabState, TabState} from 'lib/routes/helpers'
 import {styles} from './BottomBarStyles'
 import {useMinimalShellMode} from 'lib/hooks/useMinimalShellMode'
 import {useNavigationTabState} from 'lib/hooks/useNavigationTabState'
+import {TabLink, useIsTabSelected} from './tab-slot'
 
 export const BottomBar = observer(({navigation}: BottomTabBarProps) => {
   const store = useStores()
   const pal = usePalette('default')
   const safeAreaInsets = useSafeAreaInsets()
   const {track} = useAnalytics()
-  const {isAtHome, isAtSearch, isAtNotifications, isAtMyProfile} =
-    useNavigationTabState()
+  const {
+    isAtHome,
+    isAtSearch: _,
+    isAtNotifications,
+    isAtMyProfile,
+  } = useNavigationTabState()
+
+  const isAtSearch = useIsTabSelected('(search)')
 
   const {footerMinimalShellTransform} = useMinimalShellMode()
 
@@ -98,28 +106,30 @@ export const BottomBar = observer(({navigation}: BottomTabBarProps) => {
         accessibilityLabel="Home"
         accessibilityHint=""
       />
-      <Btn
-        testID="bottomBarSearchBtn"
-        icon={
-          isAtSearch ? (
-            <MagnifyingGlassIcon2Solid
-              size={25}
-              style={[styles.ctrlIcon, pal.text, styles.searchIcon]}
-              strokeWidth={1.8}
-            />
-          ) : (
-            <MagnifyingGlassIcon2
-              size={25}
-              style={[styles.ctrlIcon, pal.text, styles.searchIcon]}
-              strokeWidth={1.8}
-            />
-          )
-        }
-        onPress={onPressSearch}
-        accessibilityRole="search"
-        accessibilityLabel="Search"
-        accessibilityHint=""
-      />
+      <TabLink asChild name="(search)">
+        <Btn
+          testID="bottomBarSearchBtn"
+          icon={
+            isAtSearch ? (
+              <MagnifyingGlassIcon2Solid
+                size={25}
+                style={[styles.ctrlIcon, pal.text, styles.searchIcon]}
+                strokeWidth={1.8}
+              />
+            ) : (
+              <MagnifyingGlassIcon2
+                size={25}
+                style={[styles.ctrlIcon, pal.text, styles.searchIcon]}
+                strokeWidth={1.8}
+              />
+            )
+          }
+          // onPress={onPressSearch}
+          accessibilityRole="search"
+          accessibilityLabel="Search"
+          accessibilityHint=""
+        />
+      </TabLink>
       <Btn
         testID="bottomBarNotificationsBtn"
         icon={
