@@ -11,19 +11,14 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import {
-  useLinkProps,
-  useNavigation,
-  StackActions,
-} from '@react-navigation/native'
+import {useLinkProps} from '@react-navigation/native'
 import {Text} from './text/Text'
 import {TypographyVariant} from 'lib/ThemeContext'
-import {NavigationProp} from 'lib/routes/types'
-import {router} from '../../../routes'
 import {useStores, RootStoreModel} from 'state/index'
 import {convertBskyAppUrlIfNeeded, isExternalUrl} from 'lib/strings/url-helpers'
 import {isDesktopWeb} from 'platform/detection'
 import {sanitizeUrl} from '@braintree/sanitize-url'
+import {useRouter} from 'expo-router'
 
 type Event =
   | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -53,15 +48,15 @@ export const Link = observer(function Link({
   ...props
 }: Props) {
   const store = useStores()
-  const navigation = useNavigation<NavigationProp>()
+  const router = useRouter()
 
   const onPress = React.useCallback(
     (e?: Event) => {
       if (typeof href === 'string') {
-        return onPressInner(store, navigation, sanitizeUrl(href), e)
+        return onPressInner(store, router, sanitizeUrl(href), e)
       }
     },
-    [store, navigation, href],
+    [store, router, href],
   )
 
   if (noFeedback) {
@@ -124,13 +119,12 @@ export const TextLink = observer(function TextLink({
 }) {
   const {...props} = useLinkProps({to: sanitizeUrl(href)})
   const store = useStores()
-  const navigation = useNavigation<NavigationProp>()
-
+  const router = useRouter()
   props.onPress = React.useCallback(
     (e?: Event) => {
-      return onPressInner(store, navigation, sanitizeUrl(href), e)
+      return onPressInner(store, router, sanitizeUrl(href), e)
     },
-    [store, navigation, href],
+    [store, router, href],
   )
   const hrefAttrs = useMemo(() => {
     const isExternal = isExternalUrl(href)
@@ -218,7 +212,7 @@ export const DesktopWebTextLink = observer(function DesktopWebTextLink({
 // -prf
 function onPressInner(
   store: RootStoreModel,
-  navigation: NavigationProp,
+  router: ReturnType<typeof useRouter>,
   href: string,
   e?: Event,
 ) {
@@ -243,11 +237,10 @@ function onPressInner(
     href = convertBskyAppUrlIfNeeded(href)
     if (href.startsWith('http') || href.startsWith('mailto')) {
       Linking.openURL(href)
+      // router.push(href)
     } else {
       store.shell.closeModal() // close any active modals
-
-      // @ts-ignore we're not able to type check on this one -prf
-      navigation.dispatch(StackActions.push(...router.matchPath(href)))
+      router.push(href)
     }
   }
 }

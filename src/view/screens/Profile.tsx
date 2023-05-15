@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 import {observer} from 'mobx-react-lite'
 import {useFocusEffect} from '@react-navigation/native'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewSelector} from '../com/util/ViewSelector'
 import {CenteredView} from '../com/util/Views'
@@ -25,21 +24,21 @@ import {FAB} from '../com/util/fab/FAB'
 import {s, colors} from 'lib/styles'
 import {useAnalytics} from 'lib/analytics'
 import {ComposeIcon2} from 'lib/icons'
+import {useLocalSearchParams} from 'expo-router'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'Profile'>
 export const ProfileScreen = withAuthRequired(
-  observer(({route}: Props) => {
+  observer(() => {
     const store = useStores()
     const {screen, track} = useAnalytics()
-
+    const params = useLocalSearchParams<{name: string}>()
     useEffect(() => {
       screen('Profile')
     }, [screen])
 
     const [hasSetup, setHasSetup] = useState<boolean>(false)
     const uiState = React.useMemo(
-      () => new ProfileUiModel(store, {user: route.params.name}),
-      [route.params.name, store],
+      () => new ProfileUiModel(store, {user: params.name}),
+      [params.name, store],
     )
 
     useFocusEffect(
@@ -106,10 +105,10 @@ export const ProfileScreen = withAuthRequired(
         <ProfileHeader
           view={uiState.profile}
           onRefreshAll={onRefresh}
-          hideBackButton={route.params.hideBackButton}
+          hideBackButton={params.hideBackButton}
         />
       )
-    }, [uiState, onRefresh, route.params.hideBackButton])
+    }, [uiState, onRefresh, params.hideBackButton])
     const Footer = React.useMemo(() => {
       return uiState.showLoadingMoreFooter ? LoadingMoreFooter : undefined
     }, [uiState.showLoadingMoreFooter])
