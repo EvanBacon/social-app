@@ -5,7 +5,7 @@ import {colors} from 'lib/styles'
 
 export const unstable_settings = {
   profile: {
-    initialRouteName: '[profile]',
+    initialRouteName: '[profile]/index',
   },
 }
 
