@@ -1,4 +1,4 @@
-import {Slot, SplashScreen} from 'expo-router'
+import {SplashScreen} from 'expo-router'
 import * as analytics from 'lib/analytics'
 import * as notifee from 'lib/notifee'
 import {getRoutingInstrumentation, withSentry} from 'lib/sentry'
@@ -16,6 +16,11 @@ import {
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native'
+import {Shell} from 'view/shell'
+
+export const unstable_settings = {
+  initialRouteName: '(index)',
+}
 
 const App = observer(() => {
   const [rootStore, setRootStore] = useState<RootStoreModel | undefined>(
@@ -55,7 +60,7 @@ const App = observer(() => {
         <RootSiblingParent>
           <analytics.Provider>
             <RootStoreProvider value={rootStore}>
-              <Slot />
+              <Shell />
             </RootStoreProvider>
           </analytics.Provider>
         </RootSiblingParent>
