@@ -19,40 +19,19 @@ import {
   DarkTheme,
 } from '@react-navigation/native'
 import {Shell} from 'view/shell'
+import {useLoadRootStore} from '@/hooks/useLoadRootStore'
 
 export const unstable_settings = {
   initialRouteName: '(index)',
 }
 
 const App = observer(() => {
-  const [rootStore, setRootStore] = useState<RootStoreModel | undefined>(
-    undefined,
-  )
-
-  // init
-  useEffect(() => {
-    view.setup()
-    setupState().then(store => {
-      setRootStore(store)
-      analytics.init(store)
-      if (Platform.OS !== 'web') {
-        notifee.init(store)
-        store.onSessionDropped(() => {
-          Toast.show('Sorry! Your session expired. Please log in again.')
-        })
-
-        // TODO: Handle this
-        // const routingInstrumentation = getRoutingInstrumentation()
-        // routingInstrumentation.registerNavigationContainer(useNavigation)
-      }
-    })
-  }, [])
-
+  const rootStore = useLoadRootStore()
   const theme = useColorSchemeStyle(DefaultTheme, DarkTheme)
 
   // show nothing prior to init
   if (!rootStore) {
-    // TODO: Never delay rendering the navigation tree
+    // TODO: Never delay rendering the navigation tree on web. This stops static rendering from traversing the entire tree.
     return <SplashScreen />
   }
 
