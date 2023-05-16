@@ -149,6 +149,7 @@ export class RootStoreModel {
   clearAllSessionState() {
     this.log.debug('RootStoreModel:clearAllSessionState')
     this.session.clear()
+    // TODO: Introduce imperative API for Expo Router https://github.com/expo/router/issues/575
     resetToTab('HomeTab')
     this.me.clear()
   }

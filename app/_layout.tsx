@@ -1,4 +1,4 @@
-import {Slot, SplashScreen, useNavigation} from 'expo-router'
+import {Slot, SplashScreen} from 'expo-router'
 import * as analytics from 'lib/analytics'
 import * as notifee from 'lib/notifee'
 import {getRoutingInstrumentation, withSentry} from 'lib/sentry'
@@ -8,7 +8,6 @@ import {useEffect, useState} from 'react'
 import {RootSiblingParent} from 'react-native-root-siblings'
 import * as view from 'view/index'
 import * as Toast from 'view/com/util/Toast'
-import {Shell} from 'view/shell'
 import {Platform} from 'react-native'
 import {RootStoreModel, RootStoreProvider, setupState} from 'state/index'
 import {useColorSchemeStyle} from 'lib/hooks/useColorSchemeStyle'
@@ -17,9 +16,6 @@ import {
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native'
-// import {handleLink} from '../../Navigation'
-
-// SplashScreen.preventAutoHideAsync()
 
 const App = observer(() => {
   const [rootStore, setRootStore] = useState<RootStoreModel | undefined>(

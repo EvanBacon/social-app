@@ -12,10 +12,6 @@ import {Shell} from 'view/shell'
 import {Platform} from 'react-native'
 import {RootStoreModel, RootStoreProvider, setupState} from '../../state'
 
-// import {handleLink} from '../../Navigation'
-
-// SplashScreen.preventAutoHideAsync()
-
 const App = observer(() => {
   const [rootStore, setRootStore] = useState<RootStoreModel | undefined>(
     undefined,

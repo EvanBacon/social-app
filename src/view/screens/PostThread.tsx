@@ -1,7 +1,6 @@
 import React, {useMemo} from 'react'
 import {StyleSheet, View} from 'react-native'
 import {useFocusEffect} from '@react-navigation/native'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {makeRecordUri} from 'lib/strings/url-helpers'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
@@ -13,14 +12,15 @@ import {s} from 'lib/styles'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {clamp} from 'lodash'
 import {isDesktopWeb} from 'platform/detection'
+import {useLocalSearchParams} from 'expo-router'
 
 const SHELL_FOOTER_HEIGHT = 44
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'PostThread'>
-export const PostThreadScreen = withAuthRequired(({route}: Props) => {
+export const PostThreadScreen = withAuthRequired(() => {
+  const params = useLocalSearchParams<{name: string; rkey: string}>()
   const store = useStores()
   const safeAreaInsets = useSafeAreaInsets()
-  const {name, rkey} = route.params
+  const {name, rkey} = params
   const uri = makeRecordUri(name, 'app.bsky.feed.post', rkey)
   const view = useMemo<PostThreadModel>(
     () => new PostThreadModel(store, {uri}),

@@ -1,7 +1,6 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
 import {useFocusEffect} from '@react-navigation/native'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {useNavigation} from '@react-navigation/native'
 import {observer} from 'mobx-react-lite'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
@@ -14,16 +13,16 @@ import * as Toast from 'view/com/util/Toast'
 import {ListModel} from 'state/models/content/list'
 import {useStores} from 'state/index'
 import {usePalette} from 'lib/hooks/usePalette'
-import {NavigationProp} from 'lib/routes/types'
 import {isDesktopWeb} from 'platform/detection'
+import {useLocalSearchParams, useRouter} from 'expo-router'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'ProfileList'>
 export const ProfileListScreen = withAuthRequired(
-  observer(({route}: Props) => {
+  observer(() => {
     const store = useStores()
-    const navigation = useNavigation<NavigationProp>()
+    const navigation = useNavigation()
+    const router = useRouter()
     const pal = usePalette('default')
-    const {name, rkey} = route.params
+    const {name, rkey} = useLocalSearchParams<{name: string; rkey: string}>()
 
     const list: ListModel = React.useMemo(() => {
       const model = new ListModel(
@@ -73,13 +72,13 @@ export const ProfileListScreen = withAuthRequired(
         async onPressConfirm() {
           await list.delete()
           if (navigation.canGoBack()) {
-            navigation.goBack()
+            router.back()
           } else {
-            navigation.navigate('Home')
+            router.replace('/')
           }
         },
       })
-    }, [store, list, navigation])
+    }, [store, list, navigation, router])
 
     const renderEmptyState = React.useCallback(() => {
       return <EmptyState icon="users-slash" message="This list is empty!" />

@@ -1,17 +1,16 @@
 import React from 'react'
 import {View} from 'react-native'
 import {useFocusEffect} from '@react-navigation/native'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {PostLikedBy as PostLikedByComponent} from '../com/post-thread/PostLikedBy'
 import {useStores} from 'state/index'
 import {makeRecordUri} from 'lib/strings/url-helpers'
+import {useLocalSearchParams} from 'expo-router'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'PostLikedBy'>
-export const PostLikedByScreen = withAuthRequired(({route}: Props) => {
+export const PostLikedByScreen = withAuthRequired(() => {
   const store = useStores()
-  const {name, rkey} = route.params
+  const {name, rkey} = useLocalSearchParams<{name: string; rkey: string}>()
   const uri = makeRecordUri(name, 'app.bsky.feed.post', rkey)
 
   useFocusEffect(

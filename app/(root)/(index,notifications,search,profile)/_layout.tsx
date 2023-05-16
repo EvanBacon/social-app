@@ -9,7 +9,7 @@ export const unstable_settings = {
   },
 }
 
-export default function Layout({segment}) {
+export default function Layout() {
   const contentStyle = useColorSchemeStyle(styles.bgLight, styles.bgDark)
   // const store = useStores()
 

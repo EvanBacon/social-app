@@ -14,10 +14,8 @@ import {Composer} from './Composer'
 import {useTheme} from 'lib/ThemeContext'
 import {usePalette} from 'lib/hooks/usePalette'
 import * as backHandler from 'lib/routes/back-handler'
-// import {RoutesContainer} from '../../Navigation'
 import {isStateAtTabRoot} from 'lib/routes/helpers'
 import {isAndroid} from 'platform/detection'
-// import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {Slot} from 'expo-router'
 
 const ShellInner = observer(() => {

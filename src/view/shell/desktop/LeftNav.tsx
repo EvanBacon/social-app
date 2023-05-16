@@ -32,8 +32,8 @@ import {
   HandIcon,
 } from 'lib/icons'
 import {getCurrentRoute, isTab, isStateAtTabRoot} from 'lib/routes/helpers'
-import {NavigationProp} from 'lib/routes/types'
 import {router} from '../../../routes'
+import {useRouter} from 'expo-router'
 
 const ProfileCard = observer(() => {
   const store = useStores()
@@ -46,16 +46,17 @@ const ProfileCard = observer(() => {
 
 function BackBtn() {
   const pal = usePalette('default')
-  const navigation = useNavigation<NavigationProp>()
+  const navigation = useNavigation()
+  const router = useRouter()
   const shouldShow = useNavigationState(state => !isStateAtTabRoot(state))
 
   const onPressBack = React.useCallback(() => {
     if (navigation.canGoBack()) {
-      navigation.goBack()
+      router.back()
     } else {
-      navigation.navigate('Home')
+      router.replace('/')
     }
-  }, [navigation])
+  }, [navigation, router])
 
   if (!shouldShow) {
     return <></>
