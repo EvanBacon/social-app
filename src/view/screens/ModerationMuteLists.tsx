@@ -6,7 +6,6 @@ import {
   FontAwesomeIconStyle,
 } from '@fortawesome/react-native-fontawesome'
 import {AtUri} from '@atproto/api'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {EmptyStateWithButton} from 'view/com/util/EmptyStateWithButton'
 import {useStores} from 'state/index'
@@ -19,11 +18,7 @@ import {CenteredView} from 'view/com/util/Views'
 import {ViewHeader} from 'view/com/util/ViewHeader'
 import {isDesktopWeb} from 'platform/detection'
 
-type Props = NativeStackScreenProps<
-  CommonNavigatorParams,
-  'ModerationMuteLists'
->
-export const ModerationMuteListsScreen = withAuthRequired(({}: Props) => {
+export const ModerationMuteListsScreen = withAuthRequired(() => {
   const pal = usePalette('default')
   const store = useStores()
   const navigation = useNavigation<NavigationProp>()

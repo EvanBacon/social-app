@@ -2,10 +2,6 @@ import React from 'react'
 import {FlatList, View} from 'react-native'
 import {useFocusEffect} from '@react-navigation/native'
 import {observer} from 'mobx-react-lite'
-import {
-  NativeStackScreenProps,
-  NotificationsTabNavigatorParams,
-} from 'lib/routes/types'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {Feed} from '../com/notifications/Feed'
@@ -18,12 +14,8 @@ import {s} from 'lib/styles'
 import {useAnalytics} from 'lib/analytics'
 import {isWeb} from 'platform/detection'
 
-type Props = NativeStackScreenProps<
-  NotificationsTabNavigatorParams,
-  'Notifications'
->
 export const NotificationsScreen = withAuthRequired(
-  observer(({}: Props) => {
+  observer(() => {
     const store = useStores()
     const onMainScroll = useOnMainScroll(store)
     const scrollElRef = React.useRef<FlatList>(null)

@@ -6,7 +6,6 @@ import {
   FontAwesomeIconStyle,
 } from '@fortawesome/react-native-fontawesome'
 import {observer} from 'mobx-react-lite'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {useStores} from 'state/index'
 import {s} from 'lib/styles'
@@ -18,9 +17,8 @@ import {usePalette} from 'lib/hooks/usePalette'
 import {useAnalytics} from 'lib/analytics'
 import {isDesktopWeb} from 'platform/detection'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'Moderation'>
 export const ModerationScreen = withAuthRequired(
-  observer(function Moderation({}: Props) {
+  observer(function Moderation() {
     const pal = usePalette('default')
     const store = useStores()
     const {screen, track} = useAnalytics()

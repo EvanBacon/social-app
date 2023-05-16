@@ -1,7 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
 import {useFocusEffect} from '@react-navigation/native'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {useStores} from 'state/index'
 import {Text} from 'view/com/util/text/Text'
@@ -10,8 +9,7 @@ import {CenteredView} from 'view/com/util/Views'
 import {usePalette} from 'lib/hooks/usePalette'
 import {s} from 'lib/styles'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'Support'>
-export const SupportScreen = (_props: Props) => {
+export const SupportScreen = () => {
   const store = useStores()
   const pal = usePalette('default')
 

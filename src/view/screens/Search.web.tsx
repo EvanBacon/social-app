@@ -6,18 +6,13 @@ import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {Suggestions} from 'view/com/search/Suggestions'
 import {SearchResults} from 'view/com/search/SearchResults'
 import {observer} from 'mobx-react-lite'
-import {
-  NativeStackScreenProps,
-  SearchTabNavigatorParams,
-} from 'lib/routes/types'
 import {useStores} from 'state/index'
 import * as Mobile from './SearchMobile'
 import {useWebMediaQueries} from 'lib/hooks/useWebMediaQueries'
 import {useLocalSearchParams} from 'expo-router'
 
-type Props = NativeStackScreenProps<SearchTabNavigatorParams, 'Search'>
 export const SearchScreen = withAuthRequired(
-  observer(({}: Props) => {
+  observer(() => {
     const store = useStores()
     const params = useLocalSearchParams<{q?: string}>()
     const foafs = React.useMemo<FoafsModel>(

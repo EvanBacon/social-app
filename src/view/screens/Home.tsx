@@ -3,7 +3,6 @@ import {FlatList, View} from 'react-native'
 import {useFocusEffect, useIsFocused} from '@react-navigation/native'
 import {observer} from 'mobx-react-lite'
 import useAppState from 'react-native-appstate-hook'
-import {NativeStackScreenProps, HomeTabNavigatorParams} from 'lib/routes/types'
 import {PostsFeedModel} from 'state/models/feeds/posts'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {useTabFocusEffect} from 'lib/hooks/useTabFocusEffect'
@@ -24,9 +23,8 @@ import {isDesktopWeb} from 'platform/detection'
 const HEADER_OFFSET = isDesktopWeb ? 50 : 40
 const POLL_FREQ = 30e3 // 30sec
 
-type Props = NativeStackScreenProps<HomeTabNavigatorParams, 'Home'>
 export const HomeScreen = withAuthRequired(
-  observer((_opts: Props) => {
+  observer(() => {
     const store = useStores()
     const [selectedPage, setSelectedPage] = React.useState(0)
     const [initialLanguages] = React.useState(

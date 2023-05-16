@@ -17,7 +17,6 @@ import {
   FontAwesomeIconStyle,
 } from '@fortawesome/react-native-fontawesome'
 import {observer} from 'mobx-react-lite'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import * as AppInfo from 'lib/app-info'
 import {useStores} from 'state/index'
@@ -38,9 +37,8 @@ import {isDesktopWeb} from 'platform/detection'
 import {pluralize} from 'lib/strings/helpers'
 import {formatCount} from 'view/com/util/numeric/format'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'Settings'>
 export const SettingsScreen = withAuthRequired(
-  observer(function Settings({}: Props) {
+  observer(function Settings() {
     const pal = usePalette('default')
     const store = useStores()
     const navigation = useNavigation<NavigationProp>()

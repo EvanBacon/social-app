@@ -3,7 +3,6 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native'
 import {useFocusEffect} from '@react-navigation/native'
 import {observer} from 'mobx-react-lite'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
-import {NativeStackScreenProps, CommonNavigatorParams} from 'lib/routes/types'
 import {ScrollView} from '../com/util/Views'
 import {useStores} from 'state/index'
 import {s} from 'lib/styles'
@@ -12,10 +11,7 @@ import {Text} from '../com/util/text/Text'
 import {usePalette} from 'lib/hooks/usePalette'
 import {ago} from 'lib/strings/time'
 
-export const LogScreen = observer(function Log({}: NativeStackScreenProps<
-  CommonNavigatorParams,
-  'Log'
->) {
+export const LogScreen = observer(function Log() {
   const pal = usePalette('default')
   const store = useStores()
   const [expanded, setExpanded] = React.useState<string[]>([])

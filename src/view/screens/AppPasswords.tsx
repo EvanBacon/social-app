@@ -11,16 +11,13 @@ import {usePalette} from 'lib/hooks/usePalette'
 import {isDesktopWeb} from 'platform/detection'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {observer} from 'mobx-react-lite'
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {CommonNavigatorParams} from 'lib/routes/types'
 import {useAnalytics} from 'lib/analytics'
 import {useFocusEffect} from '@react-navigation/native'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {CenteredView} from 'view/com/util/Views'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'AppPasswords'>
 export const AppPasswords = withAuthRequired(
-  observer(({}: Props) => {
+  observer(() => {
     const pal = usePalette('default')
     const store = useStores()
     const {screen} = useAnalytics()
