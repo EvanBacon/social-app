@@ -1,3 +1,5 @@
+import '../src/styles/global.css'
+
 import {SplashScreen} from 'expo-router'
 import * as analytics from 'lib/analytics'
 import * as notifee from 'lib/notifee'
