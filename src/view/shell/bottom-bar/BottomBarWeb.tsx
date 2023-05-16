@@ -71,7 +71,7 @@ export const BottomBarWeb = observer(() => {
           )
         }}
       </NavItem>
-      <NavItem routeName="(profile)" href={`/profile/${store.me.handle}`}>
+      <NavItem routeName="(profile)" params={{name: store.me.handle}}>
         {() => (
           <UserIcon
             size={28}
@@ -87,11 +87,13 @@ export const BottomBarWeb = observer(() => {
 const NavItem: React.FC<{
   children: (isFocused: boolean) => React.ReactChild
   href: string
+  params?: object
   routeName: string
-}> = ({children, routeName}) => {
+}> = ({children, params, routeName}) => {
   return (
     <TabLink
       name={routeName}
+      params={params}
       style={[
         styles.ctrl,
         {alignItems: 'center', display: 'flex', justifyContent: 'center'},

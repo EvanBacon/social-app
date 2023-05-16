@@ -125,9 +125,11 @@ const TabLinkContext = React.createContext<boolean>(false)
 
 export function TabLink({
   name,
+  params,
   ...props
 }: {
   name: string
+  params?: object
   children:
     | ((focused: boolean) => React.ReactChild)
     | React.ComponentProps<typeof Link>['children']
@@ -152,10 +154,10 @@ export function TabLink({
       canPreventDefault: true,
     })
 
-    if (!event.defaultPrevented) {
+    if (!isActive && !event.defaultPrevented) {
       e.preventDefault()
       navigation.dispatch({
-        ...CommonActions.navigate({name: route.name, merge: true}),
+        ...CommonActions.navigate({name: route.name, params, merge: true}),
         target,
       })
     }
@@ -176,7 +178,7 @@ export function TabLink({
   return (
     <Link
       {...props}
-      href={buildLink(name)}
+      href={buildLink(name, params)}
       onPress={onPress}
       onLongPress={onLongPress}>
       <TabLinkContext.Provider value={isActive}>
