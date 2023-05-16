@@ -97,3 +97,5 @@ ios/
 # environment variables
 .env
 .env.*
+# Local Netlify folder
+.netlify
