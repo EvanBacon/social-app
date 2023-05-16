@@ -15,7 +15,7 @@ import {GalleryModel} from 'state/models/media/gallery'
 import {ImageModel} from 'state/models/media/image'
 import {SquareIcon, RectWideIcon, RectTallIcon} from 'lib/icons'
 import {Slider} from '@miblanchard/react-native-slider'
-import {MaterialIcons} from '@expo/vector-icons'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import {observer} from 'mobx-react-lite'
 import {getKeys} from 'lib/type-assertions'
 
