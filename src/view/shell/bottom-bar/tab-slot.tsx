@@ -121,15 +121,23 @@ function useContextRoute(name: string) {
   }
 }
 
+const TabLinkContext = React.createContext<boolean>(false)
+
 export function TabLink({
   name,
   ...props
-}: {name: string} & Omit<
+}: {
+  name: string
+  children:
+    | ((focused: boolean) => React.ReactChild)
+    | React.ComponentProps<typeof Link>['children']
+} & Omit<
   React.ComponentProps<typeof Link>,
-  'href' | 'onPress' | 'onLongPress'
+  'href' | 'onPress' | 'onLongPress' | 'children'
 >) {
   const buildLink = useLinkBuilder()
   const ctxRoute = useContextRoute(name)
+  const isActive = useIsTabSelected(name)
 
   if (!ctxRoute) {
     return null
@@ -160,14 +168,27 @@ export function TabLink({
     })
   }
 
+  const children =
+    typeof props.children === 'function'
+      ? props.children(isActive)
+      : props.children
+
   return (
     <Link
       {...props}
       href={buildLink(name)}
       onPress={onPress}
-      onLongPress={onLongPress}
-    />
+      onLongPress={onLongPress}>
+      <TabLinkContext.Provider value={isActive}>
+        {children}
+      </TabLinkContext.Provider>
+    </Link>
   )
+}
+
+TabLink.useIsFocused = function useIsTabLinkFocused() {
+  const isActive = React.useContext(TabLinkContext)
+  return !!isActive
 }
 
 TabbedNavigator.Slot = TabbedSlot

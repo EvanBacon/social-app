@@ -3,9 +3,7 @@ import {observer} from 'mobx-react-lite'
 import {useStores} from 'state/index'
 import {usePalette} from 'lib/hooks/usePalette'
 import {Animated} from 'react-native'
-import {useNavigationState} from '@react-navigation/native'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
-import {getCurrentRoute, isTab} from 'lib/routes/helpers'
 import {styles} from './BottomBarStyles'
 import {clamp} from 'lib/numbers'
 import {
@@ -18,7 +16,7 @@ import {
   UserIcon,
 } from 'lib/icons'
 import {useMinimalShellMode} from 'lib/hooks/useMinimalShellMode'
-import {TabLink, useIsTabSelected} from './tab-slot'
+import {TabLink} from './tab-slot'
 
 export const BottomBarWeb = observer(() => {
   const store = useStores()
@@ -36,7 +34,7 @@ export const BottomBarWeb = observer(() => {
         footerMinimalShellTransform,
       ]}>
       <NavItem routeName="(index)" href="/">
-        {({isActive}) => {
+        {isActive => {
           const Icon = isActive ? HomeIconSolid : HomeIcon
           return (
             <Icon
@@ -48,7 +46,7 @@ export const BottomBarWeb = observer(() => {
         }}
       </NavItem>
       <NavItem routeName="(search)" href="/search">
-        {({isActive}) => {
+        {isActive => {
           const Icon = isActive
             ? MagnifyingGlassIcon2Solid
             : MagnifyingGlassIcon2
@@ -62,7 +60,7 @@ export const BottomBarWeb = observer(() => {
         }}
       </NavItem>
       <NavItem routeName="(notifications)" href="/notifications">
-        {({isActive}) => {
+        {isActive => {
           const Icon = isActive ? BellIconSolid : BellIcon
           return (
             <Icon
@@ -87,13 +85,10 @@ export const BottomBarWeb = observer(() => {
 })
 
 const NavItem: React.FC<{
-  children: (props: {isActive: boolean}) => React.ReactChild
+  children: (isFocused: boolean) => React.ReactChild
   href: string
   routeName: string
 }> = ({children, routeName}) => {
-  // const currentRoute = useNavigationState(getCurrentRoute)
-  const isActive = useIsTabSelected(routeName)
-
   return (
     <TabLink
       name={routeName}
@@ -101,7 +96,7 @@ const NavItem: React.FC<{
         styles.ctrl,
         {alignItems: 'center', display: 'flex', justifyContent: 'center'},
       ]}>
-      {children({isActive})}
+      {children}
     </TabLink>
   )
 }
