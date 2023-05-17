@@ -5,7 +5,7 @@ import {
   Keyboard,
   View,
 } from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {FlatList, ScrollView} from 'view/com/util/Views'
 import {observer} from 'mobx-react-lite'

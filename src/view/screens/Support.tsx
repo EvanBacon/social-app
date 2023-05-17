@@ -1,6 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {useStores} from 'state/index'
 import {Text} from 'view/com/util/text/Text'

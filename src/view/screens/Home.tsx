@@ -1,6 +1,7 @@
 import React from 'react'
 import {FlatList, View} from 'react-native'
-import {useFocusEffect, useIsFocused} from '@react-navigation/native'
+import {useIsFocused} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {observer} from 'mobx-react-lite'
 import useAppState from 'react-native-appstate-hook'
 import {PostsFeedModel} from 'state/models/feeds/posts'

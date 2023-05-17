@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet, TouchableOpacity, View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {observer} from 'mobx-react-lite'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {ScrollView} from '../com/util/Views'

@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {useNavigation} from '@react-navigation/native'
 import {observer} from 'mobx-react-lite'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'

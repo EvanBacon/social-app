@@ -41,11 +41,13 @@ import {NavigationProp} from 'lib/routes/types'
 import {useNavigationTabState} from 'lib/hooks/useNavigationTabState'
 import {isWeb} from 'platform/detection'
 import {formatCount} from 'view/com/util/numeric/format'
+import {useRouter} from 'expo-router'
 
 export const DrawerContent = observer(() => {
   const theme = useTheme()
   const pal = usePalette('default')
   const store = useStores()
+  const router = useRouter()
   const navigation = useNavigation<NavigationProp>()
   const {track} = useAnalytics()
   const {isAtHome, isAtSearch, isAtNotifications, isAtMyProfile} =
@@ -53,59 +55,53 @@ export const DrawerContent = observer(() => {
 
   const {notifications} = store.me
 
-  // events
-  // =
-
   const onPressTab = React.useCallback(
-    (tab: string) => {
+    (tab: string, url: string) => {
       track('Menu:ItemClicked', {url: tab})
       const state = navigation.getState()
       store.shell.closeDrawer()
-      if (isWeb) {
-        // @ts-ignore must be Home, Search, Notifications, or MyProfile
-        navigation.navigate(tab)
+      const tabState = getTabState(state, tab)
+      if (tabState === TabState.InsideAtRoot) {
+        store.emitScreenSoftReset()
+      } else if (tabState === TabState.Inside) {
+        navigation.dispatch(StackActions.popToTop())
       } else {
-        const tabState = getTabState(state, tab)
-        if (tabState === TabState.InsideAtRoot) {
-          store.emitScreenSoftReset()
-        } else if (tabState === TabState.Inside) {
-          navigation.dispatch(StackActions.popToTop())
-        } else {
-          // @ts-ignore must be Home, Search, Notifications, or MyProfile
-          navigation.navigate(`${tab}Tab`)
-        }
+        router.push(url)
       }
     },
-    [store, track, navigation],
+    [store, track, router, navigation],
   )
 
-  const onPressHome = React.useCallback(() => onPressTab('Home'), [onPressTab])
+  const onPressHome = React.useCallback(
+    () => onPressTab('Home', '/'),
+    [onPressTab],
+  )
 
   const onPressSearch = React.useCallback(
-    () => onPressTab('Search'),
+    () => onPressTab('Search', '/search'),
     [onPressTab],
   )
 
   const onPressNotifications = React.useCallback(
-    () => onPressTab('Notifications'),
+    () => onPressTab('Notifications', '/notifications'),
     [onPressTab],
   )
 
   const onPressProfile = React.useCallback(() => {
-    onPressTab('MyProfile')
-  }, [onPressTab])
+    onPressTab('MyProfile', '/profile/' + store.me.did)
+  }, [onPressTab, store])
 
   const onPressModeration = React.useCallback(() => {
     track('Menu:ItemClicked', {url: 'Moderation'})
-    navigation.navigate('Moderation')
+    router.push('/moderation')
     store.shell.closeDrawer()
-  }, [navigation, track, store.shell])
+  }, [router, track, store.shell])
 
   const onPressSettings = React.useCallback(() => {
     track('Menu:ItemClicked', {url: 'Settings'})
-    navigation.navigate('Settings')
+    router.push('/settings')
     store.shell.closeDrawer()
-  }, [navigation, track, store.shell])
+  }, [router, track, store.shell])
 
   const onPressFeedback = React.useCallback(() => {
     track('Menu:FeedbackClicked')

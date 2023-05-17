@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {
   FontAwesomeIcon,
   FontAwesomeIconStyle,

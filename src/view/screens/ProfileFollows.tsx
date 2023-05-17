@@ -1,6 +1,5 @@
 import React from 'react'
-import {View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {ProfileFollows as ProfileFollowsComponent} from '../com/profile/ProfileFollows'
@@ -18,9 +17,9 @@ export const ProfileFollowsScreen = withAuthRequired(() => {
   )
 
   return (
-    <View>
+    <>
       <ViewHeader title="Following" />
       <ProfileFollowsComponent name={name} />
-    </View>
+    </>
   )
 })

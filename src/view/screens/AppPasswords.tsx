@@ -12,7 +12,7 @@ import {isDesktopWeb} from 'platform/detection'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {observer} from 'mobx-react-lite'
 import {useAnalytics} from 'lib/analytics'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {CenteredView} from 'view/com/util/Views'
 

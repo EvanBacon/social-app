@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react'
 import {StyleSheet, View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {makeRecordUri} from 'lib/strings/url-helpers'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'

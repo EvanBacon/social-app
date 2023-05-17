@@ -1,6 +1,5 @@
 import React from 'react'
-import {View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {PostLikedBy as PostLikedByComponent} from '../com/post-thread/PostLikedBy'
@@ -20,9 +19,9 @@ export const PostLikedByScreen = withAuthRequired(() => {
   )
 
   return (
-    <View>
+    <>
       <ViewHeader title="Liked by" />
       <PostLikedByComponent uri={uri} />
-    </View>
+    </>
   )
 })

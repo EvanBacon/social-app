@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 import {observer} from 'mobx-react-lite'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewSelector} from '../com/util/ViewSelector'
 import {CenteredView} from '../com/util/Views'

@@ -1,6 +1,7 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {useNavigation, useFocusEffect} from '@react-navigation/native'
+import {useNavigation} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {Text} from '../com/util/text/Text'
 import {Button} from 'view/com/util/forms/Button'

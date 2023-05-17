@@ -1,6 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {useFocusEffect} from '@react-navigation/native'
+import {useFocusEffect} from 'expo-router'
 import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {PostRepostedBy as PostRepostedByComponent} from '../com/post-thread/PostRepostedBy'
