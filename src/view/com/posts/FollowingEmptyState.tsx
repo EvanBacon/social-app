@@ -1,6 +1,5 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {useNavigation} from '@react-navigation/native'
 import {
   FontAwesomeIcon,
   FontAwesomeIconStyle,
@@ -8,19 +7,19 @@ import {
 import {Text} from '../util/text/Text'
 import {Button} from '../util/forms/Button'
 import {MagnifyingGlassIcon} from 'lib/icons'
-import {NavigationProp} from 'lib/routes/types'
 import {usePalette} from 'lib/hooks/usePalette'
 import {s} from 'lib/styles'
+import {useRouter} from 'expo-router'
 
 export function FollowingEmptyState() {
   const pal = usePalette('default')
   const palInverted = usePalette('inverted')
-  const navigation = useNavigation<NavigationProp>()
+  const router = useRouter()
 
   const onPressFindAccounts = React.useCallback(() => {
-    navigation.navigate('SearchTab')
-    navigation.popToTop()
-  }, [navigation])
+    router.replace('/search')
+    // navigation.popToTop()
+  }, [router])
 
   return (
     <View style={styles.emptyContainer}>

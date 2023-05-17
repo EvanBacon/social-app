@@ -11,6 +11,7 @@ import {Text} from '../text/Text'
 import {Button} from '../forms/Button'
 import {isDesktopWeb} from 'platform/detection'
 import {ModerationBehaviorCode, ModerationBehavior} from 'lib/labeling/types'
+import {useRouter} from 'expo-router'
 
 export function ScreenHider({
   testID,
@@ -30,14 +31,15 @@ export function ScreenHider({
   const palInverted = usePalette('inverted')
   const [override, setOverride] = React.useState(false)
   const navigation = useNavigation<NavigationProp>()
+  const router = useRouter()
 
   const onPressBack = React.useCallback(() => {
     if (navigation.canGoBack()) {
-      navigation.goBack()
+      router.back()
     } else {
-      navigation.navigate('Home')
+      router.replace('/')
     }
-  }, [navigation])
+  }, [navigation, router])
 
   if (moderation.behavior !== ModerationBehaviorCode.Hide || override) {
     return (

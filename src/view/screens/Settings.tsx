@@ -8,11 +8,6 @@ import {
   ViewStyle,
 } from 'react-native'
 import {
-  useFocusEffect,
-  useNavigation,
-  StackActions,
-} from '@react-navigation/native'
-import {
   FontAwesomeIcon,
   FontAwesomeIconStyle,
 } from '@fortawesome/react-native-fontawesome'
@@ -32,16 +27,16 @@ import {usePalette} from 'lib/hooks/usePalette'
 import {useCustomPalette} from 'lib/hooks/useCustomPalette'
 import {AccountData} from 'state/models/session'
 import {useAnalytics} from 'lib/analytics'
-import {NavigationProp} from 'lib/routes/types'
 import {isDesktopWeb} from 'platform/detection'
 import {pluralize} from 'lib/strings/helpers'
 import {formatCount} from 'view/com/util/numeric/format'
+import {useRouter, useFocusEffect} from 'expo-router'
 
 export const SettingsScreen = withAuthRequired(
   observer(function Settings() {
     const pal = usePalette('default')
     const store = useStores()
-    const navigation = useNavigation<NavigationProp>()
+    const router = useRouter()
     const {screen, track} = useAnalytics()
     const [isSwitching, setIsSwitching] = React.useState(false)
 
@@ -76,26 +71,23 @@ export const SettingsScreen = withAuthRequired(
         setIsSwitching(true)
         if (await store.session.resumeSession(acct)) {
           setIsSwitching(false)
-          navigation.navigate('HomeTab')
-          navigation.dispatch(StackActions.popToTop())
+          router.push('/')
           Toast.show(`Signed in as ${acct.displayName || acct.handle}`)
           return
         }
         setIsSwitching(false)
         Toast.show('Sorry! We need you to enter your password.')
-        navigation.navigate('HomeTab')
-        navigation.dispatch(StackActions.popToTop())
+        router.push('/')
         store.session.clear()
       },
-      [track, setIsSwitching, navigation, store],
+      [track, setIsSwitching, router, store],
     )
 
     const onPressAddAccount = React.useCallback(() => {
       track('Settings:AddAccountButtonClicked')
-      navigation.navigate('HomeTab')
-      navigation.dispatch(StackActions.popToTop())
+      router.push('/')
       store.session.clear()
-    }, [track, navigation, store])
+    }, [track, router, store])
 
     const onPressChangeHandle = React.useCallback(() => {
       track('Settings:ChangeHandleButtonClicked')

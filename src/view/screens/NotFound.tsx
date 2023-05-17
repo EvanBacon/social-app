@@ -1,10 +1,6 @@
 import React from 'react'
 import {StyleSheet, View} from 'react-native'
-import {
-  useNavigation,
-  StackActions,
-  useFocusEffect,
-} from '@react-navigation/native'
+import {useNavigation, useFocusEffect} from '@react-navigation/native'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {Text} from '../com/util/text/Text'
 import {Button} from 'view/com/util/forms/Button'
@@ -12,9 +8,11 @@ import {NavigationProp} from 'lib/routes/types'
 import {usePalette} from 'lib/hooks/usePalette'
 import {useStores} from 'state/index'
 import {s} from 'lib/styles'
+import {useRouter} from 'expo-router'
 
 export const NotFoundScreen = () => {
   const pal = usePalette('default')
+  const router = useRouter()
   const navigation = useNavigation<NavigationProp>()
   const store = useStores()
 
@@ -27,12 +25,11 @@ export const NotFoundScreen = () => {
   const canGoBack = navigation.canGoBack()
   const onPressHome = React.useCallback(() => {
     if (canGoBack) {
-      navigation.goBack()
+      router.back()
     } else {
-      navigation.navigate('HomeTab')
-      navigation.dispatch(StackActions.popToTop())
+      router.replace('/')
     }
-  }, [navigation, canGoBack])
+  }, [router, canGoBack])
 
   return (
     <View testID="notFoundView" style={pal.view}>
@@ -44,6 +41,7 @@ export const NotFoundScreen = () => {
         <Text type="md" style={[pal.text, s.mb10]}>
           We're sorry! We can't find the page you were looking for.
         </Text>
+
         <Button
           type="primary"
           label={canGoBack ? 'Go back' : 'Go home'}

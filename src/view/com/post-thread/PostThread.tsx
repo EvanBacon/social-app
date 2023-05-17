@@ -26,6 +26,7 @@ import {isDesktopWeb, isMobileWeb} from 'platform/detection'
 import {usePalette} from 'lib/hooks/usePalette'
 import {useNavigation} from '@react-navigation/native'
 import {NavigationProp} from 'lib/routes/types'
+import {useRouter} from 'expo-router'
 
 const REPLY_PROMPT = {_reactKey: '__reply__', _isHighlightedPost: false}
 const DELETED = {_reactKey: '__deleted__', _isHighlightedPost: false}
@@ -53,6 +54,7 @@ export const PostThread = observer(function PostThread({
   const ref = useRef<FlatList>(null)
   const [isRefreshing, setIsRefreshing] = React.useState(false)
   const navigation = useNavigation<NavigationProp>()
+  const router = useRouter()
   const posts = React.useMemo(() => {
     if (view.thread) {
       return Array.from(flattenThread(view.thread)).concat([BOTTOM_COMPONENT])
@@ -100,11 +102,11 @@ export const PostThread = observer(function PostThread({
 
   const onPressBack = React.useCallback(() => {
     if (navigation.canGoBack()) {
-      navigation.goBack()
+      router.back()
     } else {
-      navigation.navigate('Home')
+      router.replace('/')
     }
-  }, [navigation])
+  }, [navigation, router])
 
   const renderItem = React.useCallback(
     ({item}: {item: YieldedItem}) => {

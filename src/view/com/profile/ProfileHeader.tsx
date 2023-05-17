@@ -10,7 +10,6 @@ import {
   FontAwesomeIcon,
   FontAwesomeIconStyle,
 } from '@fortawesome/react-native-fontawesome'
-import {useNavigation} from '@react-navigation/native'
 import {BlurView} from '../util/BlurView'
 import {ProfileModel} from 'state/models/content/profile'
 import {useStores} from 'state/index'
@@ -30,12 +29,12 @@ import {UserBanner} from '../util/UserBanner'
 import {ProfileHeaderWarnings} from '../util/moderation/ProfileHeaderWarnings'
 import {usePalette} from 'lib/hooks/usePalette'
 import {useAnalytics} from 'lib/analytics'
-import {NavigationProp} from 'lib/routes/types'
 import {listUriToHref} from 'lib/strings/url-helpers'
 import {isDesktopWeb, isNative} from 'platform/detection'
 import {FollowState} from 'state/models/cache/my-follows'
 import {shareUrl} from 'lib/sharing'
 import {formatCount} from '../util/numeric/format'
+import {useRouter} from 'expo-router'
 
 const BACK_HITSLOP = {left: 30, top: 30, right: 30, bottom: 30}
 
@@ -103,12 +102,12 @@ const ProfileHeaderLoaded = observer(
   ({view, onRefreshAll, hideBackButton = false}: Props) => {
     const pal = usePalette('default')
     const store = useStores()
-    const navigation = useNavigation<NavigationProp>()
+    const router = useRouter()
     const {track} = useAnalytics()
 
     const onPressBack = React.useCallback(() => {
-      navigation.goBack()
-    }, [navigation])
+      router.back()
+    }, [router])
 
     const onPressAvi = React.useCallback(() => {
       if (view.avatar) {
@@ -140,13 +139,13 @@ const ProfileHeaderLoaded = observer(
 
     const onPressFollowers = React.useCallback(() => {
       track('ProfileHeader:FollowersButtonClicked')
-      navigation.push('ProfileFollowers', {name: view.handle})
-    }, [track, navigation, view])
+      router.push({pathname: './[name]/followers', params: {name: view.handle}})
+    }, [track, router, view])
 
     const onPressFollows = React.useCallback(() => {
       track('ProfileHeader:FollowsButtonClicked')
-      navigation.push('ProfileFollows', {name: view.handle})
-    }, [track, navigation, view])
+      router.push({pathname: './[name]/follows', params: {name: view.handle}})
+    }, [track, router, view])
 
     const onPressShare = React.useCallback(() => {
       track('ProfileHeader:ShareButtonClicked')

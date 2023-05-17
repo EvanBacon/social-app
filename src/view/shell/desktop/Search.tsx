@@ -1,14 +1,13 @@
 import React from 'react'
 import {TextInput, View, StyleSheet, TouchableOpacity} from 'react-native'
-import {useNavigation, StackActions} from '@react-navigation/native'
 import {UserAutocompleteModel} from 'state/models/discovery/user-autocomplete'
 import {observer} from 'mobx-react-lite'
 import {useStores} from 'state/index'
 import {usePalette} from 'lib/hooks/usePalette'
 import {MagnifyingGlassIcon2} from 'lib/icons'
-import {NavigationProp} from 'lib/routes/types'
 import {ProfileCard} from 'view/com/profile/ProfileCard'
 import {Text} from 'view/com/util/text/Text'
+import {useRouter} from 'expo-router'
 
 export const DesktopSearch = observer(function DesktopSearch() {
   const store = useStores()
@@ -20,7 +19,7 @@ export const DesktopSearch = observer(function DesktopSearch() {
     () => new UserAutocompleteModel(store),
     [store],
   )
-  const navigation = useNavigation<NavigationProp>()
+  const router = useRouter()
 
   const onChangeQuery = React.useCallback(
     (text: string) => {
@@ -41,9 +40,9 @@ export const DesktopSearch = observer(function DesktopSearch() {
   }, [setQuery, autocompleteView])
 
   const onSubmit = React.useCallback(() => {
-    navigation.dispatch(StackActions.push('Search', {q: query}))
+    router.push({pathname: '/search', params: {q: query}})
     autocompleteView.setActive(false)
-  }, [query, navigation, autocompleteView])
+  }, [query, router, autocompleteView])
 
   return (
     <View style={[styles.container, pal.view]}>

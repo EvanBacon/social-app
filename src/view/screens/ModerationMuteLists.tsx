@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
-import {useFocusEffect, useNavigation} from '@react-navigation/native'
+import {useFocusEffect} from '@react-navigation/native'
 import {
   FontAwesomeIcon,
   FontAwesomeIconStyle,
@@ -12,16 +12,16 @@ import {useStores} from 'state/index'
 import {ListsListModel} from 'state/models/lists/lists-list'
 import {ListsList} from 'view/com/lists/ListsList'
 import {Button} from 'view/com/util/forms/Button'
-import {NavigationProp} from 'lib/routes/types'
 import {usePalette} from 'lib/hooks/usePalette'
 import {CenteredView} from 'view/com/util/Views'
 import {ViewHeader} from 'view/com/util/ViewHeader'
 import {isDesktopWeb} from 'platform/detection'
+import {useRouter} from 'expo-router'
 
 export const ModerationMuteListsScreen = withAuthRequired(() => {
   const pal = usePalette('default')
   const store = useStores()
-  const navigation = useNavigation<NavigationProp>()
+  const router = useRouter()
 
   const mutelists: ListsListModel = React.useMemo(
     () => new ListsListModel(store, 'my-modlists'),
@@ -41,14 +41,17 @@ export const ModerationMuteListsScreen = withAuthRequired(() => {
       onSave: (uri: string) => {
         try {
           const urip = new AtUri(uri)
-          navigation.navigate('ProfileList', {
-            name: urip.hostname,
-            rkey: urip.rkey,
+          router.push({
+            pathname: '../profile/[name]/lists/[rkey]',
+            params: {
+              name: urip.hostname,
+              rkey: urip.rkey,
+            },
           })
         } catch {}
       },
     })
-  }, [store, navigation])
+  }, [store, router])
 
   const renderEmptyState = React.useCallback(() => {
     return (

@@ -12,6 +12,7 @@ import {useAnimatedValue} from 'lib/hooks/useAnimatedValue'
 import {useAnalytics} from 'lib/analytics'
 import {NavigationProp} from 'lib/routes/types'
 import {isDesktopWeb} from 'platform/detection'
+import {useRouter} from 'expo-router'
 
 const BACK_HITSLOP = {left: 20, top: 20, right: 50, bottom: 20}
 
@@ -30,16 +31,17 @@ export const ViewHeader = observer(function ({
 }) {
   const pal = usePalette('default')
   const store = useStores()
+  const router = useRouter()
   const navigation = useNavigation<NavigationProp>()
   const {track} = useAnalytics()
 
   const onPressBack = React.useCallback(() => {
     if (navigation.canGoBack()) {
-      navigation.goBack()
+      router.back()
     } else {
-      navigation.navigate('Home')
+      router.replace('/')
     }
-  }, [navigation])
+  }, [navigation, router])
 
   const onPressMenu = React.useCallback(() => {
     track('ViewHeader:MenuButtonClicked')

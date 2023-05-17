@@ -5,6 +5,7 @@ import {withAuthRequired} from 'view/com/auth/withAuthRequired'
 import {ViewHeader} from '../com/util/ViewHeader'
 import {ProfileFollowers as ProfileFollowersComponent} from '../com/profile/ProfileFollowers'
 import {useStores} from 'state/index'
+import {useLocalSearchParams} from 'expo-router'
 
 export const ProfileFollowersScreen = withAuthRequired(() => {
   const store = useStores()
